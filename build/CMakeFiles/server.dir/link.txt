@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/server.dir/src/httpserver.cpp.o CMakeFiles/server.dir/main/server_main.cpp.o -o server 

@@ -1,3 +1,0 @@
-/home/sentomk/code/networking/build/CMakeFiles/server.dir
-/home/sentomk/code/networking/build/CMakeFiles/edit_cache.dir
-/home/sentomk/code/networking/build/CMakeFiles/rebuild_cache.dir
