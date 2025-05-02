@@ -1,39 +1,26 @@
 #include <httpclient.hpp>
 #include <iostream>
-#include <thread>
-#include <vector>
 
-void client_task(int client_id)
+int main()
 {
     try
     {
         HttpClient client("127.0.0.1", 1234);
-        client.connect();
-        client.send_request("hello from client " + std::to_string(client_id));
-        std::string response = client.receive_response();
-        std::cout << "Client " << client_id
-                  << " received: " << response << std::endl;
+
+        // 发送多个请求
+        client.send_request("hello1");
+        std::cout << "Response 1: " << client.receive_response() << std::endl;
+
+        client.send_request("hello2");
+        std::cout << "Response 2: " << client.receive_response() << std::endl;
+
+        client.send_request("hello3");
+        std::cout << "Response 3: " << client.receive_response() << std::endl;
     }
     catch (...)
     {
-        std::cerr << "Client " << client_id << " failed." << std::endl;
+        std::cerr << "Fatal error occurred" << std::endl;
+        return 1;
     }
-}
-
-int main()
-{
-    const int num_clients = 5; 
-    std::vector<std::thread> threads;
-
-    for (int i = 0; i < num_clients; ++i)
-    {
-        threads.emplace_back(client_task, i + 1); // 传递客户端ID
-    }
-
-    for (auto &t : threads)
-    {
-        t.join();
-    }
-
     return 0;
 }
