@@ -32,7 +32,7 @@ void HttpServer::setup_server()
     struct sockaddr_in addr{
         addr.sin_family = AF_INET,
         addr.sin_port = htons(m_port),
-        addr.sin_addr.s_addr = {htonl(INADDR_ANY)}};
+        addr.sin_addr.s_addr = htonl(INADDR_ANY)};
 
     // bind()
     if (bind(m_listen_fd, (const sockaddr *)&addr, sizeof(addr)))
@@ -43,7 +43,7 @@ void HttpServer::setup_server()
     // listen()
     if (listen(m_listen_fd, SOMAXCONN))
     {
-        die("listen*() failed");
+        die("listen() failed");
     }
 }
 
@@ -54,6 +54,8 @@ void HttpServer::listen_for_connections()
     {
         struct sockaddr_in client_addr = {};
         socklen_t addrlen = sizeof(client_addr);
+
+        // accept()
         int connfd = accept(m_listen_fd, (sockaddr *)&client_addr, &addrlen);
         if (connfd < 0)
             continue;
