@@ -6,3 +6,8 @@ include_directories(include)
 add_executable(server 
     src/httpserver.cpp
     main/server_main.cpp)
+
+add_executable(client
+    src/httpclient.cpp
+    main/client_main.cpp
+)   

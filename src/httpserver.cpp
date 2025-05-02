@@ -17,17 +17,6 @@ void HttpServer::start()
     listen_for_connections();
 }
 
-// 错误处理
-void HttpServer::die(const char *msg)
-{
-    std::cerr << "[ERROR] " << msg << " (errno: " << errno << ")" << std::endl;
-    exit(-1);
-}
-void HttpServer::log_error(const char *msg)
-{
-    std::cerr << "[ERROR] " << msg << std::endl;
-}
-
 // 初始化服务器socket
 void HttpServer::setup_server()
 {
@@ -43,7 +32,7 @@ void HttpServer::setup_server()
     struct sockaddr_in addr{
         addr.sin_family = AF_INET,
         addr.sin_port = htons(m_port),
-        addr.sin_addr.s_addr = {htonl(INADDR_ANY)}};
+        addr.sin_addr.s_addr = htonl(INADDR_ANY)};
 
     // bind()
     if (bind(m_listen_fd, (const sockaddr *)&addr, sizeof(addr)))
@@ -54,7 +43,7 @@ void HttpServer::setup_server()
     // listen()
     if (listen(m_listen_fd, SOMAXCONN))
     {
-        die("listen*() failed");
+        die("listen() failed");
     }
 }
 
@@ -65,6 +54,8 @@ void HttpServer::listen_for_connections()
     {
         struct sockaddr_in client_addr = {};
         socklen_t addrlen = sizeof(client_addr);
+
+        // accept()
         int connfd = accept(m_listen_fd, (sockaddr *)&client_addr, &addrlen);
         if (connfd < 0)
             continue;
@@ -153,4 +144,15 @@ int HttpServer::write_all(int fd, char *buf, size_t n)
         buf += rv;
     }
     return 0;
+}
+
+// 错误处理
+void HttpServer::die(const char *msg)
+{
+    std::cerr << "[ERROR] " << msg << " (errno: " << errno << ")" << std::endl;
+    exit(-1);
+}
+void HttpServer::log_error(const char *msg)
+{
+    std::cerr << "[ERROR] " << msg << std::endl;
 }
