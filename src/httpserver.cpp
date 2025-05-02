@@ -17,17 +17,6 @@ void HttpServer::start()
     listen_for_connections();
 }
 
-// 错误处理
-void HttpServer::die(const char *msg)
-{
-    std::cerr << "[ERROR] " << msg << " (errno: " << errno << ")" << std::endl;
-    exit(-1);
-}
-void HttpServer::log_error(const char *msg)
-{
-    std::cerr << "[ERROR] " << msg << std::endl;
-}
-
 // 初始化服务器socket
 void HttpServer::setup_server()
 {
@@ -153,4 +142,15 @@ int HttpServer::write_all(int fd, char *buf, size_t n)
         buf += rv;
     }
     return 0;
+}
+
+// 错误处理
+void HttpServer::die(const char *msg)
+{
+    std::cerr << "[ERROR] " << msg << " (errno: " << errno << ")" << std::endl;
+    exit(-1);
+}
+void HttpServer::log_error(const char *msg)
+{
+    std::cerr << "[ERROR] " << msg << std::endl;
 }
